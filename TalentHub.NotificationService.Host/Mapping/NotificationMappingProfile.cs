@@ -9,5 +9,6 @@ public class NotificationMappingProfile : Profile
     public NotificationMappingProfile()
     {
         CreateMap<UserSettingsDto, UserSettingsModel>();
+        CreateMap<NotificationDto, NotificationModel>();
     }
 }

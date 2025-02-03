@@ -4,8 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentHub.NotificationServi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentHub.NotificationService.Application", "TalentHub.NotificationService.Application\TalentHub.NotificationService.Application.csproj", "{1710109F-28E7-4787-9A78-42E1DF0D545C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TalentHub.NotificationService.Infrastructure", "TalentHub.NotificationService.Infrastructure\TalentHub.NotificationService.Infrastructure.csproj", "{1194BA31-481A-479B-BC35-2F457F2F5DD5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,9 +18,5 @@ Global
 		{1710109F-28E7-4787-9A78-42E1DF0D545C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1710109F-28E7-4787-9A78-42E1DF0D545C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1710109F-28E7-4787-9A78-42E1DF0D545C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1194BA31-481A-479B-BC35-2F457F2F5DD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1194BA31-481A-479B-BC35-2F457F2F5DD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1194BA31-481A-479B-BC35-2F457F2F5DD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1194BA31-481A-479B-BC35-2F457F2F5DD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -7,11 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TalentHub.NotificationService.Infrastructure\TalentHub.NotificationService.Infrastructure.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.1" />
     </ItemGroup>
 
 </Project>

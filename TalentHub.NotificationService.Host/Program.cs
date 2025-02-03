@@ -1,21 +1,21 @@
 ﻿using MassTransit;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TalentHub.NotificationService.Application.Models;
+using TalentHub.NotificationService.Host.Configurations;
 using TalentHub.NotificationService.Host.Consumers;
 using TalentHub.NotificationService.Host.Settings;
-using TalentHub.NotificationService.Infrastructure.Data;
 
 var builder = Host.CreateApplicationBuilder(args);
 
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
 builder.Configuration.AddJsonFile("appsettings.json");
 
-builder.Services.AddOptions<ApplicationConfiguration>()
-    .BindConfiguration(nameof(ApplicationConfiguration));
+builder.Services.AddOptions<SeqConfiguration>()
+    .BindConfiguration(nameof(SeqConfiguration));
 builder.Services.AddOptions<SmtpConfiguration>()
     .BindConfiguration(nameof(SmtpConfiguration));
 builder.Services.AddOptions<FirebaseConfiguration>()
@@ -23,12 +23,16 @@ builder.Services.AddOptions<FirebaseConfiguration>()
 builder.Services.AddOptions<RabbitMqConfiguration>()
     .BindConfiguration(nameof(RabbitMqConfiguration));
 
-builder.Services.AddDbContext<NotificationDbContext>((sp, options) =>
+var seqOptions = builder.Services.BuildServiceProvider()
+    .GetService<IOptions<SeqConfiguration>>();
+
+if (seqOptions == null)
 {
-    var settings = sp.GetRequiredService<IOptions<ApplicationConfiguration>>();
-    options.EnableSensitiveDataLogging();
-    options.UseNpgsql(settings.Value.ConnectionString);
-});
+    throw new InvalidOperationException($"Could not find '{nameof(SeqConfiguration)}'");
+}
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSeq(seqOptions.Value.ServerUrl, seqOptions.Value.ApiKey);
 
 builder.Services.AddMassTransit(x =>
 {
