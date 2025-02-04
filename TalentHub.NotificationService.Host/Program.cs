@@ -4,9 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using TalentHub.NotificationService.Application.Abstractions;
 using TalentHub.NotificationService.Application.Models;
+using TalentHub.NotificationService.Application.Providers;
+using TalentHub.NotificationService.Host;
 using TalentHub.NotificationService.Host.Configurations;
 using TalentHub.NotificationService.Host.Consumers;
+using TalentHub.NotificationService.Host.Extensions;
 using TalentHub.NotificationService.Host.Settings;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -22,6 +26,14 @@ builder.Services.AddOptions<FirebaseConfiguration>()
     .BindConfiguration(nameof(FirebaseConfiguration));
 builder.Services.AddOptions<RabbitMqConfiguration>()
     .BindConfiguration(nameof(RabbitMqConfiguration));
+
+builder.Services.AddScoped<INotificationSenderFactory, NotificationSenderFactory>();
+builder.Services.AddScoped<INotificationSenderProvider, NotificationSenderProvider>();
+builder.Services.AddScoped<IHostedService, MassTransitService>();
+builder.Services.AddScoped<IConsumer, NotificationConsumer>();
+builder.Services.AddScoped<IHostedService, MassTransitService>();
+
+builder.Services.RegisterMapper();
 
 var seqOptions = builder.Services.BuildServiceProvider()
     .GetService<IOptions<SeqConfiguration>>();

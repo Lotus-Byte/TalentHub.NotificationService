@@ -5,7 +5,7 @@ using TalentHub.NotificationService.Application.Services;
 
 namespace TalentHub.NotificationService.Application.Providers;
 
-public class SenderNotificationFactory : INotificationSenderFactory
+public class NotificationSenderFactory : INotificationSenderFactory
 {
     public INotificationSender CreateEmailSender(SmtpConfiguration config, EmailNotificationSettingsDto settings)
     {
