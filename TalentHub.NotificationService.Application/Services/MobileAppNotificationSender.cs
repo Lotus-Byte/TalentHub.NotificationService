@@ -9,8 +9,14 @@ namespace TalentHub.NotificationService.Application.Services;
 public class MobileAppNotificationSender : INotificationSender
 {
     private readonly FirebaseConfiguration _firebaseConfiguration;
-    public MobileAppNotificationSender(FirebaseConfiguration firebaseConfiguration) => 
+    private readonly PushNotificationSettingsDto _notificationSettings;
+    public MobileAppNotificationSender(
+        FirebaseConfiguration firebaseConfiguration, 
+        PushNotificationSettingsDto notificationSettings)
+    {
         _firebaseConfiguration = firebaseConfiguration;
+        _notificationSettings = notificationSettings;
+    }
 
     public async Task SendAsync(NotificationDto notification)
     {
@@ -21,8 +27,7 @@ public class MobileAppNotificationSender : INotificationSender
 
         var message = new
         {
-            // TODO: SORT OUT WITH DEVICE TOKEN
-            to = deviceToken,
+            to = _notificationSettings.DeviceToken,
             notification = new
             {
                 title = notification.Title,

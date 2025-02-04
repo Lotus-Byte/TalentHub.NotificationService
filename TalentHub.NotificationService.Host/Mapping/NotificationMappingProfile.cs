@@ -10,5 +10,7 @@ public class NotificationMappingProfile : Profile
     {
         CreateMap<UserSettingsDto, UserSettingsModel>();
         CreateMap<NotificationDto, NotificationModel>();
+        CreateMap<EmailNotificationSettingsDto, EmailNotificationSettingsModel>();
+        CreateMap<PushNotificationSettingsDto, PushNotificationSettingsModel>();
     }
 }

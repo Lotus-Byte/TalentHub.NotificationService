@@ -2,6 +2,6 @@ namespace TalentHub.NotificationService.Host.Models;
 
 public class UserSettingsModel
 {
-    public bool PushNotificationEnabled { get; set; }
-    public bool EmailNotificationEnabled { get; set; }
+    public EmailNotificationSettingsModel Email { get; set; }
+    public PushNotificationSettingsModel Push { get; set; }
 }

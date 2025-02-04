@@ -31,16 +31,16 @@ public class NotificationSenderProvider : INotificationSenderProvider
         
         var senders = new List<INotificationSender>();
         
-        if (settings.EmailNotificationEnabled)
+        if (settings.Email.Enabled)
         {
-            _logger.LogInformation("Email notification sender selected.");
-            senders.Add(_senderFactory.CreateEmailSender(_smtpConfiguration));
+            _logger.LogInformation("Address notification sender selected.");
+            senders.Add(_senderFactory.CreateEmailSender(_smtpConfiguration, settings.Email));
         }
         
-        if (settings.PushNotificationEnabled)
+        if (settings.Push.Enabled)
         {
             _logger.LogInformation("Push notification sender selected.");
-            senders.Add(_senderFactory.CreatePushSender(_firebaseConfiguration));
+            senders.Add(_senderFactory.CreatePushSender(_firebaseConfiguration, settings.Push));
         }
 
         return senders;
