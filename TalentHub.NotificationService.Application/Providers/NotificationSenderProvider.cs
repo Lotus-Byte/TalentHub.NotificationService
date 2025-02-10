@@ -25,22 +25,22 @@ public class NotificationSenderProvider : INotificationSenderProvider
         _logger = logger;
     }
 
-    public IEnumerable<INotificationSender> Provide(UserSettingsDto settings)
+    public IEnumerable<INotificationSender> Provide(UserNotificationSettingsDto notificationSettings)
     {
-        ArgumentNullException.ThrowIfNull(settings);
+        ArgumentNullException.ThrowIfNull(notificationSettings);
         
         var senders = new List<INotificationSender>();
         
-        if (settings.Email.Enabled)
+        if (notificationSettings.Email.Enabled)
         {
             _logger.LogInformation("Address notification sender selected.");
-            senders.Add(_senderFactory.CreateEmailSender(_smtpConfiguration, settings.Email));
+            senders.Add(_senderFactory.CreateEmailSender(_smtpConfiguration, notificationSettings.Email));
         }
         
-        if (settings.Push.Enabled)
+        if (notificationSettings.Push.Enabled)
         {
             _logger.LogInformation("Push notification sender selected.");
-            senders.Add(_senderFactory.CreatePushSender(_firebaseConfiguration, settings.Push));
+            senders.Add(_senderFactory.CreatePushSender(_firebaseConfiguration, notificationSettings.Push));
         }
 
         return senders;

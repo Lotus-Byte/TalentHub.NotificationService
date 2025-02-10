@@ -31,7 +31,7 @@ public class NotificationConsumer : IConsumer<NotificationMessageModel>
 
         try
         {
-            var senders = _provider.Provide(_mapper.Map<UserSettingsDto>(message.UserSettings));
+            var senders = _provider.Provide(_mapper.Map<UserNotificationSettingsDto>(message.UserNotificationSettings));
 
             foreach (var sender in senders)
             {
