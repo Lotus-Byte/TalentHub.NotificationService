@@ -8,7 +8,7 @@ public class NotificationMappingProfile : Profile
 {
     public NotificationMappingProfile()
     {
-        CreateMap<NotificationMessageModel, NotificationMessageDto>()
+        CreateMap<NotificationEventModel, NotificationEventDto>()
             .ForMember(dest => dest.Notification, opt => opt.MapFrom(src => src.Notification))
             .ForMember(dest => dest.UserNotificationSettings, opt => opt.MapFrom(src => src.UserNotificationSettings))
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))

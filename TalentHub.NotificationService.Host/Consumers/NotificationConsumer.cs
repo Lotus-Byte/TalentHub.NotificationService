@@ -7,7 +7,7 @@ using TalentHub.NotificationService.Host.Models;
 
 namespace TalentHub.NotificationService.Host.Consumers;
 
-public class NotificationConsumer : IConsumer<NotificationMessageModel>
+public class NotificationConsumer : IConsumer<NotificationEventModel>
 {
     private readonly INotificationSenderProvider _provider;
     private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ public class NotificationConsumer : IConsumer<NotificationMessageModel>
         _logger = logger;
     }
     
-    public async Task Consume(ConsumeContext<NotificationMessageModel> context)
+    public async Task Consume(ConsumeContext<NotificationEventModel> context)
     {
         var message = context.Message;
         

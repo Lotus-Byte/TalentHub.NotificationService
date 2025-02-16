@@ -1,6 +1,6 @@
 namespace TalentHub.NotificationService.Application.DTO;
 
-public class NotificationMessageDto
+public class NotificationEventDto
 {
     public Guid UserId { get; init; }
     public NotificationDto Notification { get; init; }
