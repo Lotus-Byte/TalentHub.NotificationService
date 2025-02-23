@@ -12,9 +12,9 @@ public class EmailNotificationSender : INotificationSender
     private const string Subject = "TalentHub service notification";
     
     private readonly SmtpConfiguration _smtpConfiguration;
-    private readonly EmailNotificationSettingsDto _notificationSettings;
+    private readonly EmailNotificationSettings _notificationSettings;
 
-    public EmailNotificationSender(SmtpConfiguration smtpConfiguration, EmailNotificationSettingsDto notificationSettings)
+    public EmailNotificationSender(SmtpConfiguration smtpConfiguration, EmailNotificationSettings notificationSettings)
     {
         _smtpConfiguration = smtpConfiguration;
         _notificationSettings = notificationSettings;

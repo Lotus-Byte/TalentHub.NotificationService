@@ -9,15 +9,18 @@ namespace TalentHub.NotificationService.Host.Consumers;
 
 public class NotificationConsumer : IConsumer<NotificationEventModel>
 {
+    private readonly IUserServiceClient _userServiceClient;
     private readonly INotificationSenderProvider _provider;
     private readonly IMapper _mapper;
     private readonly ILogger<NotificationConsumer> _logger;
 
     public NotificationConsumer(
+        IUserServiceClient userServiceClient,
         INotificationSenderProvider provider,
         IMapper mapper,
         ILogger<NotificationConsumer> logger)
     {
+        _userServiceClient = userServiceClient;
         _provider = provider;
         _mapper = mapper;
         _logger = logger;
@@ -31,7 +34,8 @@ public class NotificationConsumer : IConsumer<NotificationEventModel>
 
         try
         {
-            var senders = _provider.Provide(_mapper.Map<UserNotificationSettingsDto>(message.UserNotificationSettings));
+            var settings = await _userServiceClient.GetUserNotificationSettingsAsync(message.UserId.ToString());
+            var senders = _provider.Provide(settings);
 
             foreach (var sender in senders)
             {

@@ -1,8 +1,8 @@
-using TalentHub.NotificationService.Application.DTO;
+using TalentHub.NotificationService.Application.Models;
 
 namespace TalentHub.NotificationService.Application.Abstractions;
 
 public interface INotificationSenderProvider
 {
-    IEnumerable<INotificationSender> Provide(UserNotificationSettingsDto notificationSettings);
+    IEnumerable<INotificationSender> Provide(UserNotificationSettings notificationSettings);
 }

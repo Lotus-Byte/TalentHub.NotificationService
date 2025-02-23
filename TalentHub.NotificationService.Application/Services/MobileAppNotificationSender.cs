@@ -9,10 +9,10 @@ namespace TalentHub.NotificationService.Application.Services;
 public class MobileAppNotificationSender : INotificationSender
 {
     private readonly FirebaseConfiguration _firebaseConfiguration;
-    private readonly PushNotificationSettingsDto _notificationSettings;
+    private readonly PushNotificationSettings _notificationSettings;
     public MobileAppNotificationSender(
         FirebaseConfiguration firebaseConfiguration, 
-        PushNotificationSettingsDto notificationSettings)
+        PushNotificationSettings notificationSettings)
     {
         _firebaseConfiguration = firebaseConfiguration;
         _notificationSettings = notificationSettings;

@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TalentHub.NotificationService.Application.Abstractions;
-using TalentHub.NotificationService.Application.DTO;
 using TalentHub.NotificationService.Application.Models;
 
 namespace TalentHub.NotificationService.Application.Providers;
@@ -25,7 +24,7 @@ public class NotificationSenderProvider : INotificationSenderProvider
         _logger = logger;
     }
 
-    public IEnumerable<INotificationSender> Provide(UserNotificationSettingsDto notificationSettings)
+    public IEnumerable<INotificationSender> Provide(UserNotificationSettings notificationSettings)
     {
         ArgumentNullException.ThrowIfNull(notificationSettings);
         

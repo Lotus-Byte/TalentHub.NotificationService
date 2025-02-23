@@ -4,9 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Polly;
 using TalentHub.NotificationService.Application.Abstractions;
 using TalentHub.NotificationService.Application.Models;
 using TalentHub.NotificationService.Application.Providers;
+using TalentHub.NotificationService.Application.Services.Clients;
 using TalentHub.NotificationService.Host;
 using TalentHub.NotificationService.Host.Configurations;
 using TalentHub.NotificationService.Host.Consumers;
@@ -33,6 +35,33 @@ builder.Services.AddScoped<IHostedService, MassTransitService>();
 builder.Services.AddScoped<IConsumer, NotificationConsumer>();
 builder.Services.AddScoped<IHostedService, MassTransitService>();
 
+builder.Services
+    .AddHttpClient<IUserServiceClient, UserServiceClient>((context, client) =>
+    {
+        var configuration = context.GetService<IOptions<UserServiceClientConfiguration>>()
+                            ?? throw new ConfigurationException($"Lack of '{nameof(UserServiceClientConfiguration)}' settings");
+
+        var userServiceClientConfiguration = configuration.Value;
+        
+        client.BaseAddress = new Uri(userServiceClientConfiguration.Endpoint);
+    })
+    .AddPolicyHandler((context, _) =>
+    {
+        var configuration = context.GetService<IOptions<UserServiceClientErrorPolicy>>()
+                            ?? throw new ConfigurationException($"Lack of '{nameof(UserServiceClientErrorPolicy)}' settings");
+        
+        var retryConfiguration = configuration.Value;
+        
+        return Policy<HttpResponseMessage>
+            .Handle<HttpRequestException>()
+            .OrResult(x => !x.IsSuccessStatusCode)
+            .WaitAndRetryAsync(
+                retryConfiguration.RetryCount,
+                _ => TimeSpan.FromSeconds(retryConfiguration.SleepDuration)
+            );
+    });
+
+
 builder.Services.RegisterMapper();
 
 var seqOptions = builder.Services.BuildServiceProvider()
@@ -44,7 +73,7 @@ if (seqOptions == null)
 }
 
 builder.Logging.ClearProviders();
-builder.Logging.AddSeq(seqOptions.Value.ServerUrl, seqOptions.Value.ApiKey);
+builder.Logging.AddSeq(seqOptions.Value.ServerUrl);
 
 builder.Services.AddMassTransit(x =>
 {
@@ -60,6 +89,11 @@ builder.Services.AddMassTransit(x =>
         {
             rmqCfg.Username(rabbitMqConfiguration.Username);
             rmqCfg.Password(rabbitMqConfiguration.Password);
+        });
+        
+        cfg.ReceiveEndpoint(rabbitMqConfiguration.QueueName, e =>
+        {
+            e.ConfigureConsumer<NotificationConsumer>(context);
         });
     });
 });
