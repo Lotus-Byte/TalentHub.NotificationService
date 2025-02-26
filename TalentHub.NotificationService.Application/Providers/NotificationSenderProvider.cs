@@ -9,18 +9,15 @@ public class NotificationSenderProvider : INotificationSenderProvider
 {
     private readonly INotificationSenderFactory _senderFactory;
     private readonly SmtpConfiguration _smtpConfiguration;
-    private readonly FirebaseConfiguration _firebaseConfiguration;
     private readonly ILogger<NotificationSenderProvider> _logger;
     
     public NotificationSenderProvider(
         INotificationSenderFactory senderFactory,
         IOptions<SmtpConfiguration> smtpConfiguration, 
-        IOptions<FirebaseConfiguration> firebaseConfiguration, 
         ILogger<NotificationSenderProvider> logger)
     {
         _senderFactory = senderFactory;
         _smtpConfiguration = smtpConfiguration.Value ?? throw new ArgumentNullException(nameof(smtpConfiguration));
-        _firebaseConfiguration = firebaseConfiguration.Value ?? throw new ArgumentNullException(nameof(firebaseConfiguration));
         _logger = logger;
     }
 
@@ -39,7 +36,7 @@ public class NotificationSenderProvider : INotificationSenderProvider
         if (notificationSettings.Push.Enabled)
         {
             _logger.LogInformation("Push notification sender selected.");
-            senders.Add(_senderFactory.CreatePushSender(_firebaseConfiguration, notificationSettings.Push));
+            senders.Add(_senderFactory.CreatePushSender(notificationSettings.Push));
         }
 
         return senders;

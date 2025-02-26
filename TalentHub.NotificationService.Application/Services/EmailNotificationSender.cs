@@ -1,5 +1,3 @@
-using System.Net;
-using System.Net.Mail;
 using TalentHub.NotificationService.Application.Abstractions;
 using TalentHub.NotificationService.Application.DTO;
 using TalentHub.NotificationService.Application.Models;
@@ -22,20 +20,21 @@ public class EmailNotificationSender : INotificationSender
 
     public async Task SendAsync(NotificationDto notification)
     {
-        using var client = new SmtpClient(_smtpConfiguration.Server, _smtpConfiguration.Port);
-        client.Credentials = new NetworkCredential(_smtpConfiguration.Username, _smtpConfiguration.Password);
-        client.EnableSsl = _smtpConfiguration.EnableSsl;
-
-        
-        var mailMessage = new MailMessage(FromAddress, _notificationSettings.Address, $"{Subject}:{notification.Title}", notification.Content);
-
-        try
-        {
-            await client.SendMailAsync(mailMessage);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Failed to send notification: {ex.Message}");
-        }
+        // TODO: next code is an example of the service implementation
+        // using var client = new SmtpClient(_smtpConfiguration.Server, _smtpConfiguration.Port);
+        // client.Credentials = new NetworkCredential(_smtpConfiguration.Username, _smtpConfiguration.Password);
+        // client.EnableSsl = _smtpConfiguration.EnableSsl;
+        //
+        //
+        // var mailMessage = new MailMessage(FromAddress, _notificationSettings.Address, $"{Subject}:{notification.Title}", notification.Content);
+        //
+        // try
+        // {
+        //     await client.SendMailAsync(mailMessage);
+        // }
+        // catch (Exception ex)
+        // {
+        //     throw new Exception($"Failed to send notification: {ex.Message}");
+        // }
     }
 }
