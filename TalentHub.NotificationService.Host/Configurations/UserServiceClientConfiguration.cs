@@ -1,4 +1,4 @@
-namespace TalentHub.NotificationService.Application.Models;
+namespace TalentHub.NotificationService.Host.Configurations;
 
 public class UserServiceClientConfiguration
 {

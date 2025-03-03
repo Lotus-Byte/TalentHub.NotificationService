@@ -5,6 +5,7 @@ using Polly;
 using TalentHub.NotificationService.Application.Abstractions;
 using TalentHub.NotificationService.Application.Models;
 using TalentHub.NotificationService.Application.Services.Clients;
+using TalentHub.NotificationService.Host.Configurations;
 
 namespace TalentHub.NotificationService.Host.Extensions;
 
