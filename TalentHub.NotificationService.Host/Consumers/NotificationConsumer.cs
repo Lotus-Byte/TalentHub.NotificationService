@@ -40,7 +40,8 @@ public class NotificationConsumer : IConsumer<NotificationEventModel>
             foreach (var sender in senders)
             {
                 await sender.SendAsync(_mapper.Map<NotificationDto>(message.Notification));
-                _logger.LogInformation("Sent notification message for UserId: {UserId}", message.UserId);
+                _logger.LogInformation("Sent notification message for UserId: {UserId}. [{Title}] : {Content}", 
+                    message.UserId, message.Notification.Title, message.Notification.Content);
             }
         }
         catch (Exception ex)
